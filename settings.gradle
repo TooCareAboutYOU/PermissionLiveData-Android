@@ -1,0 +1,3 @@
+rootProject.name='LiveData-master'
+include ':app'
+include ':lib_live_permission'

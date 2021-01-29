@@ -1,0 +1,56 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+}
+
+
+def SDK_BASENAME = "livedata-permission";
+def SDK_VERSION = "_v1.0";
+def sdkDestinationPath = "build/outputs/jar/";
+def zipFile = file('build/intermediates/aar_main_jar/release/classes.jar')
+
+task deleteBuild(type: Delete) {
+    delete sdkDestinationPath + SDK_BASENAME + SDK_VERSION + ".jar"
+}
+task makeJar(type: Jar) {
+    from zipTree(zipFile)
+    from fileTree(dir: 'src/main', includes: ['assets/**']) // 打包assets目录下的所有文件
+    baseName = SDK_BASENAME + SDK_VERSION
+    destinationDir = file(sdkDestinationPath)
+}
+
+makeJar.dependsOn(deleteBuild, build)
