@@ -15,7 +15,7 @@ import androidx.annotation.RestrictTo;
  * @date 2021/1/29 10:29
  * @description
  */
-public class PermissionResult{
+public class PermissionResult {
 
     /**
      * 全部同意
@@ -34,7 +34,8 @@ public class PermissionResult{
     @Retention(RetentionPolicy.SOURCE)
     @interface STATE {}
 
-    private @STATE int mState;
+    private @STATE
+    int mState;
     private List<String> arrayList;
 
     public PermissionResult(@STATE final int state) {

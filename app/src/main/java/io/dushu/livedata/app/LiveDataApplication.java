@@ -1,4 +1,4 @@
-package io.dushu.livedata;
+package io.dushu.livedata.app;
 
 import android.app.Application;
 

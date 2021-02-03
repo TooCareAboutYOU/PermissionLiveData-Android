@@ -28,6 +28,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/io/dushu/livedata/Main2Activity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/io/dushu/livedata/MainActivity.java">
           <value>
             <set />
@@ -49,6 +54,16 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/io/dushu/livedata/RequestPermissionLiveData.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/io/dushu/livedata/app/LiveDataApplication.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/io/dushu/livedata/base/BaseActivity.java">
           <value>
             <set />
           </value>
@@ -119,6 +134,16 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/proguard-file/proguard-o00.txt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Movies/HuangDou/dushu-android_third_v02/Baselibrary/build.gradle">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Movies/HuangDou/dushu-android_third_v02/gradle.properties">
           <value>
             <set />
           </value>

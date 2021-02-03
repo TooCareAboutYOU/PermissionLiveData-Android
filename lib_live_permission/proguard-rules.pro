@@ -61,6 +61,7 @@
     public static int d(...);
     public static int e(...);
 }
+-keep public class * extends androidx.annotation.**
 
 # 保持测试相关的代码
 -dontnote junit.framework.**
@@ -73,6 +74,11 @@
 
 
 #---------------------- 自定义 -------------------
--keep public class io.dushu.permission.livedata.LiveDataPermission{*;}
+-keep public class io.dushu.permission.livedata.LiveDataPermission{
+  *;
+}
+-keepclassmembers public class io.dushu.permission.livedata.LiveDataPermission{
+  public <init>();
+}
 -keep public class io.dushu.permission.livedata.PermissionResult{*;}
 -keep public class * extends androidx.fragment.app.Fragment

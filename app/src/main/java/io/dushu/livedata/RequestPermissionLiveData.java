@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import io.dushu.permission.livedata.BuildConfig;
 
 /**
  * @author zhangshuai
@@ -21,7 +22,7 @@ import androidx.lifecycle.Observer;
 
 public class RequestPermissionLiveData extends LiveData<String> implements Observer<String> {
 
-    private static final String TAG = MainActivity.TAG;
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     private AppCompatActivity mActivity;
     private Context context;

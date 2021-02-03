@@ -7,20 +7,20 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.Transformations;
+import io.dushu.livedata.base.BaseActivity;
 import io.dushu.permission.livedata.LiveDataPermission;
 import io.dushu.permission.livedata.PermissionResult;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
-    public static final String TAG = "MainActivitys";
-
-    MutableLiveData<String> liveData1, liveData2;
+    MutableLiveData<String> liveData1, liveData2, liveDataTest;
     LiveData<String> liveData3, liveData4;
     MediatorLiveData<String> mediatorLiveData;
 
@@ -82,7 +82,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(final String sm) {
                 String data = "输出: " + sm;
-                Log.i(TAG, "onChanged: " + data);
+                Log.i(this.getClass()
+                              .getSimpleName(), "onChanged: " + data);
             }
         });
     }
@@ -92,6 +93,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         loadMediatorLiveData();
+
+        liveDataTest = new MutableLiveData<>();
+        onTest();
+
         findViewById(R.id.acBtnChange).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -100,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
 //                questPermission1();
                 questPermission2();
+//                liveDataTest.setValue("哈哈哈");
             }
         });
 
@@ -111,38 +117,71 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void questPermission2() {
-        LiveDataPermission.getInstance(this).request(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                                     Manifest.permission.READ_EXTERNAL_STORAGE,
-                                                     Manifest.permission.CAMERA)
+        LiveDataPermission.getInstance().request(this,
+                                   new String[]{
+                                   Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                   Manifest.permission.READ_EXTERNAL_STORAGE,
+                                   Manifest.permission.CAMERA},100)
                 .observe(this,
                          new Observer<PermissionResult>() {
                              @Override
                              public void onChanged(
                                      final PermissionResult permissionResult) {
                                  if (permissionResult == null) {
-                                     Toast.makeText(MainActivity.this, "返回为null!", Toast.LENGTH_SHORT).show();
+                                     Toast.makeText(MainActivity.this,
+                                                    "返回为null!",
+                                                    Toast.LENGTH_SHORT)
+                                             .show();
                                      return;
                                  }
                                  switch (permissionResult.getState()) {
                                      case PermissionResult.GRANT: {
-                                         Toast.makeText(MainActivity.this, "全部通过", Toast.LENGTH_SHORT).show();
+                                         Toast.makeText(MainActivity.this,
+                                                        "全部通过",
+                                                        Toast.LENGTH_SHORT)
+                                                 .show();
+                                         if (BuildConfig.DEBUG) {
+                                             Log.i("LiveDataPermission",
+                                                   "MainActivity onChanged: ");
+                                         }
+                                         startActivity(new Intent(MainActivity.this,
+                                                                  Main2Activity.class));
                                          break;
                                      }
                                      case PermissionResult.DENY: {
-                                         Toast.makeText(MainActivity.this, "被拒绝的权限", Toast.LENGTH_SHORT).show();
+                                         Toast.makeText(MainActivity.this,
+                                                        "被拒绝的权限",
+                                                        Toast.LENGTH_SHORT)
+                                                 .show();
                                          break;
                                      }
                                      case PermissionResult.RATIONALE: {
-                                         Toast.makeText(MainActivity.this, "基本权限", Toast.LENGTH_SHORT).show();
+                                         Toast.makeText(MainActivity.this,
+                                                        "永久禁止弹出弹出申请权限",
+                                                        Toast.LENGTH_SHORT)
+                                                 .show();
                                          break;
                                      }
                                      default:
-                                         Toast.makeText(MainActivity.this, "默认", Toast.LENGTH_SHORT).show();
+                                         Toast.makeText(MainActivity.this, "默认",
+                                                        Toast.LENGTH_SHORT)
+                                                 .show();
                                          break;
                                  }
                              }
                          });
 
+    }
+
+    private void onTest() {
+        liveDataTest.observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(final String s) {
+                if (BuildConfig.DEBUG) {
+                    Log.i("LiveDataPermission", "MainActivity onTest: " + s);
+                }
+            }
+        });
     }
 
 //    @Override
