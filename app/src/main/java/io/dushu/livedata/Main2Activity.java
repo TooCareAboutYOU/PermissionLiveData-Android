@@ -33,7 +33,7 @@ public class Main2Activity extends BaseActivity {
         setContentView(R.layout.activity_main2);
 
         if (BuildConfig.DEBUG) {
-            Log.e("LiveDataPermission", "Main2Activity onCreate: " );
+            Log.e("LiveDataPermission", "Main2Activity onCreate: ");
         }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -77,11 +77,12 @@ public class Main2Activity extends BaseActivity {
     }
 
     private void questPermission2() {
-        LiveDataPermission.getInstance().request(this,
-                                   new String[]{
-                                           Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                           Manifest.permission.READ_EXTERNAL_STORAGE,
-                                           Manifest.permission.CAMERA},100)
+        LiveDataPermission.getInstance()
+                .request(this,
+                         new String[]{
+                                 Manifest.permission.WRITE_EXTERNAL_STORAGE
+                         },
+                         100)
                 .observe(this,
                          new Observer<PermissionResult>() {
                              @Override
@@ -101,7 +102,8 @@ public class Main2Activity extends BaseActivity {
                                                         Toast.LENGTH_SHORT)
                                                  .show();
                                          if (BuildConfig.DEBUG) {
-                                             Log.i("LiveDataPermission", "Main2Activity onChanged: ");
+                                             Log.i("LiveDataPermission",
+                                                   "Main2Activity onChanged: ");
                                          }
                                          break;
                                      }

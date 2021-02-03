@@ -17,6 +17,7 @@ import androidx.annotation.RestrictTo;
  */
 public class PermissionResult {
 
+    public static final int DEFAULT = 2020;
     /**
      * 全部同意
      */
@@ -30,12 +31,12 @@ public class PermissionResult {
      */
     public static final int RATIONALE = 2023;
 
-    @IntDef({GRANT, DENY, RATIONALE})
+    @IntDef({DEFAULT, GRANT, DENY, RATIONALE})
     @Retention(RetentionPolicy.SOURCE)
     @interface STATE {}
 
     private @STATE
-    int mState;
+    int mState = DEFAULT;
     private List<String> arrayList;
 
     public PermissionResult(@STATE final int state) {
@@ -52,7 +53,7 @@ public class PermissionResult {
      */
     @STATE
     public int getState() {
-        return mState;
+        return mState > DEFAULT ? mState : DEFAULT;
     }
 
     /**

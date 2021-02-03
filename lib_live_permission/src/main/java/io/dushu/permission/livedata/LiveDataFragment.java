@@ -31,16 +31,14 @@ public final class LiveDataFragment extends Fragment {
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        if (BuildConfig.DEBUG) {
-            Log.e("LiveDataPermission", "LiveDataFragment onCreate: 碎片创建成功");
-        }
-
     }
 
     public MutableLiveData<PermissionResult> requestPermission(@NonNull List<String> permissions,
-                                  int requestCode) {
-
-        this.mLiveData = makeLiveData();
+                                                               int requestCode) {
+        if (this.mLiveData != null) {
+            this.mLiveData = null;
+        }
+        this.mLiveData = new MutableLiveData<>();
 
         PERMISSIONS_REQUEST_CODE = requestCode;
         final List<String> tempPermission = new ArrayList<>();
@@ -57,14 +55,8 @@ public final class LiveDataFragment extends Fragment {
                 }
             });
             if (tempPermission.isEmpty()) {
-                if (BuildConfig.DEBUG) {
-                    Log.e("LiveDataPermission", "LiveDataFragment requestPermission: GRANT 全部通过");
-                }
                 this.mLiveData.setValue(new PermissionResult(PermissionResult.GRANT));
             } else {
-                if (BuildConfig.DEBUG) {
-                    Log.e("LiveDataPermission", "LiveDataFragment requestPermission: 请求");
-                }
                 requestPermissions(tempPermission.toArray(new String[tempPermission.size()]),
                                    PERMISSIONS_REQUEST_CODE);
             }
@@ -89,10 +81,6 @@ public final class LiveDataFragment extends Fragment {
                 }
             }
             if (denyPermissions.isEmpty() && rationalePermissions.isEmpty()) {
-                if (BuildConfig.DEBUG) {
-                    Log.e("LiveDataPermission",
-                          "LiveDataFragment onRequestPermissionsResult: GRANT");
-                }
                 this.mLiveData.setValue(new PermissionResult(PermissionResult.GRANT));
             } else {
                 if (rationalePermissions.size() > 0) {
@@ -108,12 +96,4 @@ public final class LiveDataFragment extends Fragment {
             }
         }
     }
-
-    private MutableLiveData<PermissionResult> makeLiveData() {
-        if (this.mLiveData != null) {
-            this.mLiveData = null;
-        }
-        return this.mLiveData = new MutableLiveData<>();
-    }
-
 }

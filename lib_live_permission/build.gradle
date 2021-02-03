@@ -40,7 +40,7 @@ dependencies {
 
 def SDK_BASENAME = "livedata-permission";
 def SDK_VERSION = "_v1.0";
-def sdkDestinationPath = "build/outputs/jar/";
+def sdkDestinationPath = "jar/"; //build/outputs/jar/
 def zipFile = file('build/intermediates/aar_main_jar/release/classes.jar')
 
 task deleteBuild(type: Delete) {

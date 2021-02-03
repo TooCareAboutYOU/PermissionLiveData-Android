@@ -1,5 +1,6 @@
 package io.dushu.livedata;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
@@ -13,6 +14,7 @@ import io.dushu.permission.livedata.PermissionResult;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,7 +22,7 @@ import android.widget.Toast;
 
 public class MainActivity extends BaseActivity {
 
-    MutableLiveData<String> liveData1, liveData2, liveDataTest;
+    MutableLiveData<String> liveData1, liveData2;
     LiveData<String> liveData3, liveData4;
     MediatorLiveData<String> mediatorLiveData;
 
@@ -94,9 +96,6 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         loadMediatorLiveData();
 
-        liveDataTest = new MutableLiveData<>();
-        onTest();
-
         findViewById(R.id.acBtnChange).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -105,7 +104,6 @@ public class MainActivity extends BaseActivity {
 
 //                questPermission1();
                 questPermission2();
-//                liveDataTest.setValue("哈哈哈");
             }
         });
 
@@ -117,11 +115,10 @@ public class MainActivity extends BaseActivity {
     }
 
     private void questPermission2() {
-        LiveDataPermission.getInstance().request(this,
-                                   new String[]{
-                                   Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                   Manifest.permission.READ_EXTERNAL_STORAGE,
-                                   Manifest.permission.CAMERA},100)
+        LiveDataPermission
+                .getInstance()
+                .request(this,
+                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100)
                 .observe(this,
                          new Observer<PermissionResult>() {
                              @Override
@@ -173,27 +170,16 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    private void onTest() {
-        liveDataTest.observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(final String s) {
-                if (BuildConfig.DEBUG) {
-                    Log.i("LiveDataPermission", "MainActivity onTest: " + s);
-                }
-            }
-        });
-    }
-
 //    @Override
 //    public void onRequestPermissionsResult(final int requestCode,
 //                                           @NonNull final String[] permissions,
 //                                           @NonNull final int[] grantResults) {
-//        Log.i("LiveFragment", "printLog: 来了权限回调");
+//        Log.i("LiveDataPermission", "printLog: 来了权限回调");
 //        if (requestCode == RequestPermissionLiveData.REQUEST_PERMISSION_CODE) {
 //            if (permissions.length != 0 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-//                Log.e(TAG, "onChanged: 写入权限申请失败！！！");
+//                Log.e("LiveDataPermission", "onChanged: 写入权限申请失败！！！");
 //            } else {
-//                Log.i(TAG, "onChanged: 写入权限申请成功！");
+//                Log.i("LiveDataPermission", "onChanged: 写入权限申请成功！");
 //                startActivity(new Intent(MainActivity.this, Main2Activity.class));
 //            }
 //        }
